@@ -19,7 +19,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B package -Pcoverage
 
-
+      - name: Check if tests were executed
+        run: |
+          if [ -f "target/site/jacoco/jacoco.csv" ]; then
+            echo "::set-output name=tests-executed::true"
+          else
+            echo "::set-output name=tests-executed::false"
+          fi
       - name: Generate JaCoCo badge
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2
